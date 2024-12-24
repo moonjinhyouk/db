@@ -1,0 +1,122 @@
+-- 회원 데이터를 저장하는 테이블
+create table member(
+    id varchar2(20) constraint member_id_pk primary key,
+    name varchar2(20),
+    mail varchar2(20),
+    pwd varchar2(20),
+    address varchar2(100),
+    contact varchar2(11)
+);
+
+-- 주문 데이터를 저장하는 테이블
+create table orders (
+    Ono number(10) constraint orders_ono_pk primary key,
+    Odate date,
+    Quantity number(2),
+    total number(7),
+    id varchar2(20) constraint member_id_fk references member(id),
+    pno number(10) constraint product_pno_fk references product(pno)
+);
+
+-- 제품 정보를 저장하는 테이블
+create table product(  
+    pno number(10) constraint product_pno_pk primary key,
+    pname varchar2(20),
+    price number(7),
+    bname varchar2(10) constraint brand_bname_fk references brand(bname)
+);
+
+-- 브랜드 정보를 저장하는 테이블
+create table brand(
+    bname varchar2(10) constraint brand_bname_pk primary key,
+    bnor number(10)
+);
+
+-- 신발 사이즈를 저장하는 테이블
+create table size(
+    size number(3) constraint size_pk primary key
+);
+
+-- 제품의 사이즈 정보를 저장하는 테이블
+create table product_size(
+    pno number(10) constraint product_size_pno_fk references product(pno),
+    size number(3) constraint product_size_size_fk references size(size),
+    primary key (pno, size)
+);
+
+-- 데이터 추가
+
+-- 회원 데이터 추가
+insert into member (id, name, mail, pwd, address, contact) values 
+('user1', '홍길동', 'hong@example.com', 'password123', '서울시 강남구', '01012345678'),
+('user2', '김영희', 'kim@example.com', 'password456', '부산시 해운대구', '01087654321'),
+('user3', '박철수', 'park@example.com', 'password789', '대구시 수성구', '01011112222'),
+('user4', '이민지', 'lee@example.com', 'password012', '인천시 남동구', '01033334444'),
+('user5', '최민수', 'choi@example.com', 'password345', '광주시 북구', '01055556666'),
+('user6', '장영진', 'jang@example.com', 'password678', '대전시 서구', '01077778888'),
+('user7', '이준호', 'leejh@example.com', 'password901', '울산시 중구', '01099990000'),
+('user8', '김수정', 'kimsj@example.com', 'password234', '수원시 영통구', '01022221111'),
+('user9', '윤지혜', 'yunji@example.com', 'password567', '창원시 성산구', '01044443333'),
+('user10', '강민우', 'kangmw@example.com', 'password890', '경주시 황성동', '01066665555'),
+('user11', '한예슬', 'hanye@example.com', 'password1234', '부천시 소사구', '01000001111'),
+('user12', '김태훈', 'kimth@example.com', 'password5678', '안양시 만안구', '01088889999');
+
+-- 주문 데이터 추가
+insert into orders (Ono, Odate, Quantity, total, id, pno) values 
+(3, to_date('2023-12-10', 'YYYY-MM-DD'), 1, 60000, 'user3', 3),
+(4, to_date('2023-12-12', 'YYYY-MM-DD'), 2, 120000, 'user4', 4),
+(5, to_date('2023-12-15', 'YYYY-MM-DD'), 3, 150000, 'user5', 1),
+(6, to_date('2023-12-18', 'YYYY-MM-DD'), 1, 50000, 'user6', 2),
+(7, to_date('2023-12-20', 'YYYY-MM-DD'), 2, 70000, 'user7', 3),
+(8, to_date('2023-12-22', 'YYYY-MM-DD'), 4, 200000, 'user8', 4),
+(9, to_date('2023-12-24', 'YYYY-MM-DD'), 1, 60000, 'user9', 3),
+(10, to_date('2023-12-26', 'YYYY-MM-DD'), 2, 120000, 'user10', 1),
+(11, to_date('2023-12-28', 'YYYY-MM-DD'), 1, 90000, 'user11', 6),
+(12, to_date('2023-12-30', 'YYYY-MM-DD'), 3, 135000, 'user12', 7);
+
+-- 제품 데이터 추가
+insert into product (pno, pname, price, bname) values 
+(1, '운동화', 100000, 'Nike'),
+(2, '샌들', 50000, 'Adidas'),
+(3, '워킹화', 60000, 'Puma'),
+(4, '등산화', 120000, 'New Balance'),
+(5, '축구화', 110000, 'Nike'),
+(6, '러닝화', 90000, 'Adidas'),
+(7, '테니스화', 95000, 'Puma'),
+(8, '배구화', 80000, 'New Balance'),
+(9, '농구화', 105000, 'Nike'),
+(10, '아쿠아슈즈', 45000, 'Adidas');
+
+-- 브랜드 데이터 추가
+insert into brand (bname, bnor) values 
+('Nike', 1),
+('Adidas', 2),
+('Puma', 3),
+('New Balance', 4),
+('Reebok', 5),
+('Under Armour', 6);
+
+-- 사이즈 데이터 추가
+insert into size (size) values 
+(240),
+(250),
+(260),
+(270),
+(280),
+(290);
+
+-- 제품 사이즈 데이터 추가
+insert into product_size (pno, size) values 
+(1, 240),
+(1, 250),
+(2, 260),
+(2, 270),
+(3, 250),
+(4, 260),
+(5, 280),
+(6, 270),
+(7, 260),
+(8, 290),
+(9, 240),
+(10, 250);
+
